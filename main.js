@@ -11,7 +11,7 @@
 var guess_words = [
     "HELLO",
     "WORLD",
-    "TSACHY",
+    "THEORY", //no one is going to know the name Tsachy
     "WEISMANN",
     "KATHERINE",
     "YASMEEN",
