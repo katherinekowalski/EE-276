@@ -347,7 +347,7 @@ function randomNumber(min, max) {
 } 
 
 // ============================================================================================
-// Here are the functions of consequences
+// Here are the functions of Negative consequences
 // ============================================================================================
 function truncateBits(input, numTruncate) { 
     //INPUT: guessed letter in encoding
@@ -365,7 +365,28 @@ function flipBit(input) {
     return input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()); 
 }
 
+// ============================================================================================
+// Here are the functions of Positive consequences
+// ============================================================================================
+function bitRepetition(guess, x) { 
+    //repeat each bit x times
+    //take most plausible outcome
+    //return
+    //make x>2 so you can always reconstruct the guess
+    return guess
 
+
+}
+
+function ECC(input, bitToCorrect) { //error correcting code, bits are 0 indexed!
+    var number = parseInt(input);
+    //flip bit
+    return input.replaceAt(bitToCorrect, ((parseInt(input(num)) + 1) % 2).toString()); 
+}
+
+function knownChannel() { //error correcting code
+    
+}
 
 
 function addPoints(currPoints, netGain) {
