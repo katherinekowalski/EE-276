@@ -99,6 +99,7 @@ function getInput() {
         for (let i = 0; i < answer.length; i++) {
             if (input != all_guesses[i]) {
                 state = "CHECK_LETTER";
+
 window.onload = function (e) {
     console.log("==window loaded==");
     
@@ -115,7 +116,7 @@ window.onload = function (e) {
         round: 1,
         wordArray: ["TSACHY", "WEISSMAN", "KASIA", "YASMEEN", "SHUBHAM", "CALVIN"],
         binaryArray: [],
-        wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
+        //wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
         currentWord: "",
         currentValue: "",
 
@@ -142,16 +143,16 @@ window.onload = function (e) {
             var playerThreeName = $('#userName_3').val()
             $('#player_1').text(playerOneName);
             $('#player_1').css("color", "#FB6542");
-            var playerOne = new Player(playerOneName, 0, 0);
+            var playerOne = new Player(playerOneName, 0);
             game.playerArray.push(playerOne);
             if (playerTwoName) {
               $('#player_2').text(playerTwoName);
-              var playerTwo = new Player(playerTwoName, 0, 0);
+              var playerTwo = new Player(playerTwoName, 0);
               game.playerArray.push(playerTwo);
             };
             if (playerThreeName) {
               $('#player_3').text(playerThreeName);
-              var playerThree = new Player(playerThreeName, 0, 0);
+              var playerThree = new Player(playerThreeName, 0);
               game.playerArray.push(playerThree);
             };
             console.log("game.playerArray", game.playerArray);
@@ -254,20 +255,19 @@ window.onload = function (e) {
             game.checkLetter();
             console.log("==AddScore==");
             if (game.currentPlayer == 0){
-              var updateOneScore = (game.playerArray[0].roundScore + game.currentValue);
-              game.playerArray[0].totalScore = updateOneScore; // adding the score per number of letters
-              $('#totalScore_1').text(updateOneScore);
+              game.playerArray[0].totalScore += 100; // adding the score per number of letters
+              console.log(game.playerArray[2].totalScore);
+              $('#totalScore_1').text(totalScore);
             };
             if (game.currentPlayer == 1){
-              var updateTwoScore = (game.playerArray[1].roundScore + game.currentValue);
-              game.playerArray[1].totalScore = updateTwoScore;
-              $('#totalScore_2').text(updateTwoScore);
+              game.playerArray[1].totalScore += 100;
+              $('#totalScore_2').text(totalScore);
             };
             if (game.currentPlayer == 2){
-              var updateThreeScore = (game.playerArray[2].roundScore + game.currentValue);
-              game.playerArray[2].totalScore = updateThreeScore;
-              $('#totalScore_3').text(updateThreeScore);
+              game.playerArray[2].totalScore += 100;
+              $('#totalScore_3').text(totalScore);
             };
+            game.awaitingButton();
         },
 
         subtractScore: function () {
@@ -300,7 +300,6 @@ window.onload = function (e) {
               };
             };
             game.awaitingButton();
-
         },
 
 
