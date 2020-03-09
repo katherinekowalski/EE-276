@@ -336,21 +336,40 @@ function checkAndUpdateWord() {
 }
 
 // ============================================================================================
+// Helper Functions
+// ============================================================================================
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+// Function to generate random number  
+function randomNumber(min, max) {  
+    return Math.random() * (max - min) + min; 
+} 
+
+// ============================================================================================
 // Here are the functions of consequences
 // ============================================================================================
-function truncateBits() { 
+function truncateBits(input, numTruncate) { 
     //INPUT: guessed letter in encoding
     //OUTPUT: modified letter in bits
+    return truncateString(input, numTruncate)
+
 
 }
 
-function flipBit() {
-
+function flipBit(input) {
+    var number = parseInt(input);
+    //random number from 1-length input
+    var num = randomNumber(0, input.length);
+    //flip bit
+    return input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()); 
 }
 
 
-function addPoints() {
 
+
+function addPoints(currPoints, netGain) {
+    return currPoints + netGain;
 }
 
 function endGame() {
