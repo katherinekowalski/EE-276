@@ -7,99 +7,6 @@
 // This file handles backend processes of the game. Specifically it turns all words into
 // their respective binary value.
 // ============================================================================================
-
-var guess_words = [
-    "HELLO",
-    "WORLD",
-    "THEORY", //no one is going to know the name Tsachy
-    "WEISMANN",
-    "KATHERINE",
-    "YASMEEN",
-    "CALVIN"
-]
-
-var letter_hash = new Object(); //Maps letters to binary value
-let encodedWord = [];           //Array of binary values for each letter in word
-let all_guesses = [];           //Tracks all guessed inputs
-let correct_guesses = [];       //Tracks all correct guesses
-let answer = '';                //The final answer
-var input = '';                 //User input
-
-var game_states = [
-    "START_GAME",
-    "START_OF_TURN",
-    "END_OF_TURN",
-    "END_GAME"
-]
-
-letter_hash.E = '100';
-letter_hash.T = '111';
-letter_hash.A = '0000';
-letter_hash.O = '0001';
-letter_hash.I = '0011';
-letter_hash.N = '0100';
-letter_hash.S = '0110';
-letter_hash.R = '1010';
-letter_hash.H = '1101';
-letter_hash.L = '00100';
-letter_hash.D = '00101';
-letter_hash.C = '01011';
-letter_hash.U = '01110';
-letter_hash.M = '10110';
-letter_hash.F = '10111';
-letter_hash.P = '11001';
-letter_hash.G = '010100';
-letter_hash.W = '010101';
-letter_hash.Y = '011110';
-letter_hash.B = '011111';
-letter_hash.V = '110001';
-letter_hash.K = '1100001';
-letter_hash.X = '11000001';
-letter_hash.J = '110000001';
-letter_hash.Q = '1100000000';
-letter_hash.Z = '1100000001';
-
-
-function convertWord(answer) {
-    for (let i = 0; i < answer.length; i++) {
-        encodedWord.push(letter_hash[answer[i]]);
-    }
-    console.log(encodedWord);
-    console.log(answer);
-}
-
-let state = '';
-
-
-
-function chooseWord() {
-    answer = guess_words[Math.floor(Math.random() * guess_words.length)];
-    convertWord(answer);
-}
-
-//function generateButtons() {
-//    let buttonsHTML = '10'.split('').map(letter => 
-
-
-//}   
-function initializeGame() {
-    chooseWord();
-    state = "START_GAME";
-}
-
-
-function getInput() {
-    state = "START_OF_TURN";
-    while (state != "CHECK_LETTER") {
-        if (state = "START_OF_TURN") {
-            input = window.prompt("Enter your guess in binary: ");
-        } else {
-            input = window.prompt("That letter has been all_guesses. Guess again: ");
-        }
-        for (let i = 0; i < answer.length; i++) {
-            if (input != all_guesses[i]) {
-                state = "CHECK_LETTER";
-
 window.onload = function (e) {
     console.log("==window loaded==");
     
@@ -323,78 +230,72 @@ window.onload = function (e) {
             game.awaitingButton();
         }
     }
-    console.log(input);
-    all_guesses.push(input);
-}
 
-function checkAndUpdateWord() {
-    for (let i = 0; i < answer.length; i++) {
-        //change display
-        //
-    }
-}
+
+
+
 
 // ============================================================================================
 // Helper Functions
 // ============================================================================================
-String.prototype.replaceAt=function(index, replacement) {
-    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
-}
-// Function to generate random number  
-function randomNumber(min, max) {  
-    return Math.random() * (max - min) + min; 
-} 
+// String.prototype.replaceAt=function(index, replacement) {
+//     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+// }
+// // Function to generate random number  
+// function randomNumber(min, max) {  
+//     return Math.random() * (max - min) + min; 
+// } 
 
 // ============================================================================================
 // Here are the functions of Negative consequences
 // ============================================================================================
-function truncateBits(input, numTruncate) { 
-    //INPUT: guessed letter in encoding
-    //OUTPUT: modified letter in bits
-    return truncateString(input, numTruncate)
+// function truncateBits(input, numTruncate) { 
+//     //INPUT: guessed letter in encoding
+//     //OUTPUT: modified letter in bits
+//     return truncateString(input, numTruncate)
 
 
-}
+// }
 
-function flipBit(input) {
-    var number = parseInt(input);
-    //random number from 1-length input
-    var num = randomNumber(0, input.length);
-    //flip bit
-    return input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()); 
-}
+// function flipBit(input) {
+//     var number = parseInt(input);
+//     //random number from 1-length input
+//     var num = randomNumber(0, input.length);
+//     //flip bit
+//     return input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()); 
+// }
 
 // ============================================================================================
 // Here are the functions of Positive consequences
 // ============================================================================================
-function bitRepetition(guess, x) { 
-    //repeat each bit x times
-    //take most plausible outcome
-    //return
-    //make x>2 so you can always reconstruct the guess
-    return guess
+// function bitRepetition(guess, x) { 
+//     //repeat each bit x times
+//     //take most plausible outcome
+//     //return
+//     //make x>2 so you can always reconstruct the guess
+//     return guess
 
 
-}
+// }
 
-function ECC(input, bitToCorrect) { //error correcting code, bits are 0 indexed!
-    var number = parseInt(input);
-    //flip bit
-    return input.replaceAt(bitToCorrect, ((parseInt(input(num)) + 1) % 2).toString()); 
-}
+// function ECC(input, bitToCorrect) { //error correcting code, bits are 0 indexed!
+//     var number = parseInt(input);
+//     //flip bit
+//     return input.replaceAt(bitToCorrect, ((parseInt(input(num)) + 1) % 2).toString()); 
+// }
 
-function knownChannel() { //error correcting code
+// function knownChannel() { //error correcting code
     
-}
+// }
 
 
-function addPoints(currPoints, netGain) {
-    return currPoints + netGain;
-}
+// function addPoints(currPoints, netGain) {
+//     return currPoints + netGain;
+// }
 
-function endGame() {
-    state = "END_GAME";
-}
+// function endGame() {
+//     state = "END_GAME";
+// }
 
 
     Player();
