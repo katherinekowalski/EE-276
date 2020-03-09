@@ -1,26 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <html lang="en-us">
 
-  <!-- Bootstrap 4 CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <head>
+      
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <link rel="stylesheet" href="style.css">
 
-  <title>Wheel of Shannon Host Panel</title>
-</head>
-<body>
-<div class="container">
-  <h1 class="text-center">Wheel of Shannon</h1>
-  <div class="text-center">
-  <!--<img id='hangmanPic' src="claudeshannon.jpg" alt=""> -->
-    <p>Guess the word:</p>
-    <p id="wordSpotlight">The word to be guessed goes here</p>
-    <div id="keyboard"></div>
-  </div> 
-</div>
+      <!-- Bootstrap 4 CDN -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 
-<script src='./main.js'></script>
-</body>
-</html>
+      <title>Wheel of Shannon Host Panel</title>
+    </head>
+
+    <body>
+      
+      <div class="container">
+        <h3 class="text-center">Wheel of Shannon Host Panel</h3>
+        <div id="buttonGroup">
+          <input type="text" id="enterLetter" placeholder="Enter Letter in Binary">
+          <button id="add" class="buttons">Add 100 Points</button>
+          <button id="subtract" class="buttons">Subtract 100 Points</button>
+          <button id="bankrupt" class="buttons">Bankruptcy</button>
+          <button id="truncate" class="buttons">Truncate Bits</button>
+          <button id="flip" class="buttons">Flip Bit</button>
+          <button id="skip" class="buttons">Skip Turn</button>
+          <button id="unflip" class="buttons">Unflip Bit</button>
+        </div>
+      </div>
+      <script src='./main.js'></script>
+    </body>
+  </html>
