@@ -13,7 +13,7 @@ var guess_words = [
     "WORLD",
     "TSACHY",
     "WEISMANN",
-    "KASIA",
+    "KATHERINE",
     "YASMEEN",
     "CALVIN"
 ]
@@ -118,7 +118,9 @@ function checkAndUpdateWord() {
 // ============================================================================================
 // Here are the functions of consequences
 // ============================================================================================
-function truncateBits() {
+function truncateBits() { 
+    //INPUT: guessed letter in encoding
+    //OUTPUT: modified letter in bits
 
 }
 
