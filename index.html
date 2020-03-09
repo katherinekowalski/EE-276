@@ -1,26 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <html lang="en">
 
-  <!-- Bootstrap 4 CDN -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <title>Wheel of Shannon</title>
-</head>
-<body>
-<div class="container">
-  <h1 class="text-center">Wheel of Shannon</h1>
-  <div class="text-center">
-    <img id='hangmanPic' src="claudeshannon.jpg" alt="">
-    <p>Guess the word:</p>
-    <p id="wordSpotlight">The word to be guessed goes here</p>
-    <div id="keyboard"></div>
-  </div> 
-</div>
+      <!-- Bootstrap 4 CDN -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+      <link href="https://fonts.googleapis.com/css?family=Caveat Brush:400,600" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
 
-<script src='./main.js'></script>
-</body>
+      <title>Wheel of Shannon</title>
+    </head>
+
+    <body>
+      
+      <div class="container">
+        <h1 class="text-center">Wheel of Shannon</h1>
+        <div class="text-center">
+          <img src="claudeshannon.jpg" style="width:150px;height:200px;">
+          <p>Guess the word:</p>
+          <div id="keyboard"></div>
+        </div>
+        <div id="display">
+          <div id="gameDisplay">
+          </div>
+        </div>
+
+        <div id="scoreBoard">
+          <table>
+            <tr>
+              <th>Player Name</th>
+              <th>Total Points</th>
+            </tr>
+            <tr>
+              <td id="player_1">Player 1</td>
+              <td id="totalScore_1">0</td>
+            </tr>
+            <tr>
+              <td id="player_2">Player 2</td>
+              <td id="totalScore_2">0</td>
+            </tr>
+            <tr>
+              <td id="player_3">Player 3</td>
+              <td id="totalScore_3">0</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div id="startModal">
+          <div id="modalContent">
+            <p>Enter Your Name to Play</p>
+            <h2>Wheel of Shannon!</h2>
+            <label for="userName_1">Player 1:</label>
+            <input type="text" id="userName_1" value="Tsachy">
+            <label for="userName_2">Player 2:</label>
+            <input type="text" id="userName_2" value="Shubham">
+            <label for="userName_3">Player 3:</label>
+            <input type="text" id="userName_3" value="Meltem"><br>
+            <button type="button" id="startGame">Start Game</button>
+          </div>
+      </div>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src='./main.js'></script>
+    </body>
+
 </html>
+
+
+
