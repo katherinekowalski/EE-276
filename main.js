@@ -124,16 +124,16 @@ window.onload = function (e) {
         },
 
         awaitingButton: function () {
-            $('#add').on('click', game.addScore);
-            $('#').on('click', game.subtractScore);
             $('#bankrupt').on('click', game.bankrupt);
             $('#truncate').on('click', game.truncate);
-            $('#flip').on('click', game.flip);
+            $('#bitflip').on('click', game.flip);
+            $('#bitflipecc').on('click',game.flipecc);
+            $('#bitflipbitrep').on('click',game.bitrep);
+            $('#incrbitrate').on('click', game.incrbitrate);
             $('#skip').on('click', game.skip);
-            $('#unflip').on('click', game.unflip);
         },
 
-        checkLetter: function(){
+        checkLetter: function(guessedLetter){
             console.log("==checkLetter==");
             var guessedLetter = $('#enterLetter').val();
             console.log(guessedLetter);
@@ -152,13 +152,14 @@ window.onload = function (e) {
                 if (game.currentPlayer == game.playerArray.length) {
                   game.currentPlayer = 0;
                 }
-            }
+              }
             }
             console.log("game.currentPlayer", game.currentPlayer);
         },
 
         addScore: function(){
-            game.checkLetter();
+            var guessedLetter = $('#enterLetter').val();
+            game.checkLetter(guessedLetter);
             var pointsToAdd = $('#add').val();
             console.log("==AddScore==");
             if (game.currentPlayer == 0){
@@ -176,12 +177,6 @@ window.onload = function (e) {
             };
             game.awaitingButton();
         },
-
-        subtractScore: function () {
-            console.log("==Subtract Score==");
-            game.awaitingButton();
-        },
-
 
         bankrupt: function(){
             console.log("==bankrupt==");
@@ -209,26 +204,30 @@ window.onload = function (e) {
             game.awaitingButton();
         },
 
+        
+        flipecc: function () {
+            console.log("==Bit Flip + ECC==");
+        },
+
+        bitrep: function() {
+            console.log("==Bit Flip + Bit Repetition");
+        },
+
+        incrbitrate: function () {
+            console.log("==Bit Flip + Bit Repetition");
+        },
 
         truncate: function() {
             console.log("==truncate==");
-            game.awaitingButton();
         },
 
         flip: function() {
             console.log("==flip==");
-            game.awaitingButton();
         },
         
         skip: function () {
             console.log("==skip==");
-            game.awaitingButton();
         },
-
-        unflip: function () {
-            console.log("==unflip==");
-            game.awaitingButton();
-        }
     }
 
 
