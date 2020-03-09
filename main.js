@@ -125,7 +125,7 @@ window.onload = function (e) {
 
         awaitingButton: function () {
             $('#add').on('click', game.addScore);
-            $('#subtract').on('click', game.subtractScore);
+            $('#').on('click', game.subtractScore);
             $('#bankrupt').on('click', game.bankrupt);
             $('#truncate').on('click', game.truncate);
             $('#flip').on('click', game.flip);
@@ -155,23 +155,23 @@ window.onload = function (e) {
             }
             }
             console.log("game.currentPlayer", game.currentPlayer);
-            game.awaitingButton();
         },
 
         addScore: function(){
             game.checkLetter();
+            var pointsToAdd = $('#add').val();
             console.log("==AddScore==");
             if (game.currentPlayer == 0){
-              game.playerArray[0].totalScore += 100; // adding the score per number of letters
+              game.playerArray[0].totalScore += pointsToAdd; // adding the score per number of letters
               console.log(game.playerArray[2].totalScore);
               $('#totalScore_1').text(totalScore);
             };
             if (game.currentPlayer == 1){
-              game.playerArray[1].totalScore += 100;
+              game.playerArray[1].totalScore += pointsToAdd;
               $('#totalScore_2').text(totalScore);
             };
             if (game.currentPlayer == 2){
-              game.playerArray[2].totalScore += 100;
+              game.playerArray[2].totalScore += pointsToAdd;
               $('#totalScore_3').text(totalScore);
             };
             game.awaitingButton();
