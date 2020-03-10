@@ -30,7 +30,7 @@ window.onload = function (e) {
         playerArray: [],
         currentPlayer: 0,
         round: 1,
-        wordArray: ["INFORMATION"],//,"POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"
+        wordArray: ["DECODE"],//,"POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"
         binaryArray: [],
         guessedArray: [],
         guessCount: 0,
