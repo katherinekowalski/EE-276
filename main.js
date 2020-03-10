@@ -15,6 +15,16 @@ window.onload = function (e) {
         this.name = name;
         this.totalScore = totalScore;
     };
+// ============================================================================================
+// Helper Functions
+// ============================================================================================
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
+// Function to generate random number  
+function randomNumber(min, max) {  
+    return Math.random() * (max - min) + min; 
+} 
 
     var game = {
 
@@ -205,45 +215,41 @@ window.onload = function (e) {
         },
 
         
-        flipecc: function () {
+        flipecc: function (guess) {
             console.log("==Bit Flip + ECC==");
+            return guess
         },
 
-        bitrep: function() {
-            console.log("==Bit Flip + Bit Repetition");
+        bitrep: function(guess) {
+            console.log("==Bit Flip + Bit Repetition==");
+            return guess
         },
 
-        incrbitrate: function () {
-            console.log("==Bit Flip + Bit Repetition");
+        incrbitrate: function () { //get 2 guesses
+            console.log("==incr bit rate==");
         },
 
-        truncate: function() {
+        truncate: function(input, numTruncate) {
             console.log("==truncate==");
+            return truncateString(input, numTruncate)
+
         },
 
-        flip: function() {
+        flip: function(input) {
             console.log("==flip==");
+            var number = parseInt(input);
+            //random number from 1-length input
+            var num = randomNumber(0, input.length);
+            //flip bit
+            checkLetter(input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()));
         },
         
         skip: function () {
             console.log("==skip==");
-        },
+        }
     }
 
 
-
-
-
-// ============================================================================================
-// Helper Functions
-// ============================================================================================
-// String.prototype.replaceAt=function(index, replacement) {
-//     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
-// }
-// // Function to generate random number  
-// function randomNumber(min, max) {  
-//     return Math.random() * (max - min) + min; 
-// } 
 
 // ============================================================================================
 // Here are the functions of Negative consequences
