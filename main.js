@@ -156,7 +156,8 @@ function randomNumber(min, max) {
         },
 
         awaitingButton: function () {
-            $('#add').on('click',game.addScore);
+            document.getElementById("add").onclick = game.addScore;
+            //$('#add').on('click',game.addScore);
             $('#bankrupt').on('click', game.bankrupt);
             $('#truncate').on('click', game.truncate);
             $('#bitflip').on('click', game.flip);
@@ -193,26 +194,19 @@ function randomNumber(min, max) {
             var guessedLetter = $('#enterLetter').val();
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
-            console.log("==AddScore==");
-            console.log(pointsToAdd);
-            if (game.currentPlayer == 0 && correctGuess) {
-                game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString;
-                 // adding the score per number of letters
-                // console.log("New total score" + game.playerArray[0].totalScore);
+
+            if ((game.currentPlayer == 0) && correctGuess) {
+                game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
-            };
-            if (game.currentPlayer == 1 && correctGuess) {
-                game.playerArray[1].totalScore = parseInt(game.playerArray[1].totalScore) + parseInt(pointsToAdd)*parseInt(this.correctLetterCount);
-                 // adding the score per number of letters
+            } else if ((game.currentPlayer == 1) && correctGuess) {
+                game.playerArray[1].totalScore = (Number(game.playerArray[1].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
-            };
-            if (game.currentPlayer == 2 && correctGuess) {
-                game.playerArray[2].totalScore = parseInt(game.playerArray[2].totalScore) + parseInt(pointsToAdd)*parseInt(this.correctLetterCount);
-                 // adding the score per number of letters
+            } else if ((game.currentPlayer == 2) && correctGuess) {
+                game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             };
-            game.currentPlayer = (game.currentPlayer + 1) % 3;
 
+            game.currentPlayer = (game.currentPlayer + 1) % 3;
             console.log("game.currentPlayer", game.currentPlayer);
             game.highlightPlayer();
             game.awaitingButton();
@@ -230,7 +224,7 @@ function randomNumber(min, max) {
               $('#total_score3').text(0);
             };
             
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+            //game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.awaitingButton();
         },
 
