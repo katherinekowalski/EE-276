@@ -5,29 +5,32 @@
 // 
 // 
 // This file handles backend processes of the game. Specifically it turns all words into
-// their respective binary value.
+// a Huffman encoded value based on the probabilities in which letters appear in a Wheel 
+// of Fortune game according to an accumulated database.
 // ============================================================================================
 window.onload = function (e) {
     console.log("==window loaded==");
-    
+
+    // ============================================================================================
+    // Function: Player()
+    // ============================================================================================
+
     function Player(name, totalScore) {
         console.log("==Player==");
         this.name = name;
         this.totalScore = totalScore;
     };
-// ============================================================================================
-// Helper Functions
-// ============================================================================================
-String.prototype.replaceAt=function(index, replacement) {
-    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
-}
 
-var game = {
+    String.prototype.replaceAt = function (index, replacement) {
+        return this.substr(0, index) + replacement + this.substr(index + replacement.length);
+    }
+
+    var game = {
 
         playerArray: [],
         currentPlayer: 0,
         round: 1,
-        wordArray: ["TSAACHY", "WEISSMAN", "KASIA", "YASMEEN", "SHUBHAM", "CAALVIN"],
+        wordArray: ["POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"],
         binaryArray: [],
         guessedArray: [],
         guessCount: 0,
@@ -38,54 +41,61 @@ var game = {
         hold: false,
 
 
-        activateButtons: function() {
+        activateButtons: function () {
             console.log("==activateButtons==");
             $('#startGame').on('click', game.checkUser);
         },
 
-        checkUser: function() {
+        checkUser: function () {
             console.log("==checkUser==");
             if ($('#userName_1').val()) {
-              game.makePlayers();
-          } else {
-              alert("Please enter a name for player one.")
-          }
-      },
+                game.makePlayers();
+            } else {
+                alert("Please enter a name for player one.")
+            }
+        },
 
-      makePlayers: function() {
-        console.log("==makePlayers==");
-        $('#startModal').css("display", "none");
-        var playerOneName = $('#userName_1').val()
-        var playerTwoName = $('#userName_2').val()
-        var playerThreeName = $('#userName_3').val()
-        $('#player_1').text(playerOneName);
-        $('#player_1').css("color", "#FB6542");
-        var playerOne = new Player(playerOneName, 0);
-        game.playerArray.push(playerOne);
-        if (playerTwoName) {
-          $('#player_2').text(playerTwoName);
-          var playerTwo = new Player(playerTwoName, 0);
-          game.playerArray.push(playerTwo);
-      };
-      if (playerThreeName) {
-          $('#player_3').text(playerThreeName);
-          var playerThree = new Player(playerThreeName, 0);
-          game.playerArray.push(playerThree);
-      };
-      console.log("game.playerArray", game.playerArray);
-      game.loadPuzzle();
-  },
+        // ============================================================================================
+        // Function: makePlayers
+        // ============================================================================================
 
+        makePlayers: function () {
+            console.log("==makePlayers==");
+            $('#startModal').css("display", "none");
+            var playerOneName = $('#userName_1').val()
+            var playerTwoName = $('#userName_2').val()
+            var playerThreeName = $('#userName_3').val()
+            $('#player_1').text(playerOneName);
+            $('#player_1').css("color", "#FB6542");
+            var playerOne = new Player(playerOneName, 0);
+            game.playerArray.push(playerOne);
+            if (playerTwoName) {
+                $('#player_2').text(playerTwoName);
+                var playerTwo = new Player(playerTwoName, 0);
+                game.playerArray.push(playerTwo);
+            };
+            if (playerThreeName) {
+                $('#player_3').text(playerThreeName);
+                var playerThree = new Player(playerThreeName, 0);
+                game.playerArray.push(playerThree);
+            };
+            console.log("game.playerArray", game.playerArray);
+            game.loadPuzzle();
+        },
 
-  loadPuzzle: function() {
-    console.log("==loadPuzzle==");
-    var randomPhrase = game.wordArray[Math.floor(Math.random() * game.wordArray.length)];
-    game.currentWord = randomPhrase;
-    $('#gameDisplay').empty();
-    for (var i = 0; i < game.currentWord.length; i++) {
+        // ============================================================================================
+        // Function: loadPuzzle
+        // ============================================================================================
+
+        loadPuzzle: function () {
+            console.log("==loadPuzzle==");
+            var randomPhrase = game.wordArray[Math.floor(Math.random() * game.wordArray.length)];
+            game.currentWord = randomPhrase;
+            $('#gameDisplay').empty();
+            for (var i = 0; i < game.currentWord.length; i++) {
 
                 var letter_hash = new Object(); //Maps letters to binary value
-                var currentLetter;    
+                var currentLetter;
 
                 letter_hash.E = '100';
                 letter_hash.T = '111';
@@ -118,8 +128,8 @@ var game = {
                 if (game.currentWord[i] != " ") {
                     currentLetter = letter_hash[game.currentWord[i]];
                     game.binaryArray.push(currentLetter);
-                } 
-                
+                }
+
 
                 $('#gameDisplay').append("<div class='highlightLetter' id='letter_" + i + "'> <p class='individualLetter'>" + currentLetter + "</p> </div>");
                 if (currentLetter == " ") {
@@ -133,39 +143,51 @@ var game = {
             console.log(game.binaryArray)
         },
 
-        highlightPlayer: function() {
-            console.log("==highlightPlayer==");
-            if (game.currentPlayer == 0){
-              $('#player_1').css("color", "#FB6542");
-          } else {
-              $('#player_1').css("color", "#000");
-          };
-          if (game.currentPlayer == 1){
-              $('#player_2').css("color", "#FB6542");
-          } else {
-              $('#player_2').css("color", "#000");
-          };
-          if (game.currentPlayer == 2){
-              $('#player_3').css("color", "#FB6542");
-          } else {
-              $('#player_3').css("color", "#000");
-          };
-      },
+        // ============================================================================================
+        // Function: highlightPlayer
+        // ============================================================================================
 
-      awaitingButton: function () {
-            //<button onclick="game.addScore">Click me</button>
-            add.onclick = function() {game.addScore("")}
-            bankrupt.onclick = function() {game.bankrupt()}
-            truncate.onclick = function() {game.truncate($('#enterLetter').val(), 2)}
-            flip.onclick = function() {game.flip($('#enterLetter').val())}
-            flipecc.onclick = function() {game.flipecc($('#enterLetter').val())}
-            bitrep.onclick = function() {game.bitrep($('#enterLetter').val())}
-            incrbitrate.onclick = function() {game.incrbitrate($('#enterLetter').val())}
-            skip.onclick = function() {game.skip()}
-            endgame.onclick = function() {game.endgame()}
+        highlightPlayer: function () {
+            console.log("==highlightPlayer==");
+            if (game.currentPlayer == 0) {
+                $('#player_1').css("color", "#FB6542");
+            } else {
+                $('#player_1').css("color", "#000");
+            };
+            if (game.currentPlayer == 1) {
+                $('#player_2').css("color", "#FB6542");
+            } else {
+                $('#player_2').css("color", "#000");
+            };
+            if (game.currentPlayer == 2) {
+                $('#player_3').css("color", "#FB6542");
+            } else {
+                $('#player_3').css("color", "#000");
+            };
         },
 
-        checkLetter: function(guessedLetter){
+        // ============================================================================================
+        // Function: awaitingButton()
+        // ============================================================================================
+
+        awaitingButton: function () {
+            //<button onclick="game.addScore">Click me</button>
+            add.onclick = function () { game.addScore("") }
+            bankrupt.onclick = function () { game.bankrupt() }
+            truncate.onclick = function () { game.truncate($('#enterLetter').val(), 2) }
+            flip.onclick = function () { game.flip($('#enterLetter').val()) }
+            flipecc.onclick = function () { game.flipecc($('#enterLetter').val()) }
+            bitrep.onclick = function () { game.bitrep($('#enterLetter').val()) }
+            incrbitrate.onclick = function () { game.incrbitrate($('#enterLetter').val()) }
+            skip.onclick = function () { game.skip() }
+            endgame.onclick = function () { game.endGame() }
+        },
+
+        // ============================================================================================
+        // Function: checkLetter()
+        // ============================================================================================
+
+        checkLetter: function (guessedLetter) {
             console.log("==checkLetter==");
             console.log(guessedLetter);
             this.correctLetterCount = 0;
@@ -173,7 +195,7 @@ var game = {
 
                 var newGuess = true;
 
-                for (var i = 0; i < game.binaryArray.length; i ++) {
+                for (var i = 0; i < game.binaryArray.length; i++) {
                     if (game.guessedArray[i] == guessedLetter) {
                         alert("You have already guessed this! Guess again.");
                         game.newGuess = false;
@@ -181,7 +203,7 @@ var game = {
                     }
                 }
 
-                
+
                 game.guessedArray.push(guessedLetter);
                 for (var i = 0; i < game.binaryArray.length; i++) {
                     if (game.binaryArray[i] == guessedLetter) {
@@ -201,9 +223,13 @@ var game = {
             return false;
         },
 
-        addScore: function(input){
+        // ============================================================================================
+        // Function: addScore()
+        // ============================================================================================
+
+        addScore: function (input) {
             var guessedLetter = $('#enterLetter').val();
-            if(input.length != 0) {
+            if (input.length != 0) {
                 guessedLetter = input;
             }
             var correctGuess = game.checkLetter(guessedLetter);
@@ -213,15 +239,15 @@ var game = {
             console.log("==AddScore==");
             console.log(pointsToAdd);
             if (game.currentPlayer == 0 && correctGuess) {
-                game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
+                game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd) * Number(game.correctLetterCount)).toString();
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
             }
             else if (game.currentPlayer == 1 && correctGuess) {
-                game.playerArray[1].totalScore = (Number(game.playerArray[1].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
+                game.playerArray[1].totalScore = (Number(game.playerArray[1].totalScore) + Number(pointsToAdd) * Number(game.correctLetterCount)).toString();
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
             }
             else if (game.currentPlayer == 2 && correctGuess) {
-                game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
+                game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd) * Number(game.correctLetterCount)).toString();
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             }
             if (game.newGuess && !game.hold) {
@@ -234,16 +260,20 @@ var game = {
             game.awaitingButton();
         },
 
-        bankrupt: function() {
+        // ============================================================================================
+        // Function: bankrupt()
+        // ============================================================================================
+
+        bankrupt: function () {
             console.log("==bankrupt==");
-            if (game.currentPlayer == 0){
+            if (game.currentPlayer == 0) {
                 game.playerArray[0].totalScore = 0;
                 console.log("Bankrupt: " + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(Number(game.playerArray[0].totalScore));
-            } else if (game.currentPlayer == 1){
+            } else if (game.currentPlayer == 1) {
                 game.playerArray[1].totalScore = 0;
                 $('#totalScore_2').text(Number(game.playerArray[1].totalScore));
-            } else if (game.currentPlayer == 2){
+            } else if (game.currentPlayer == 2) {
                 game.playerArray[2].totalScore = 0;
                 $('#totalScore_3').text(Number(game.playerArray[2].totalScore));
             }
@@ -252,6 +282,10 @@ var game = {
             game.highlightPlayer();
         },
 
+        // ============================================================================================
+        // Function: flipecc()
+        // ============================================================================================
+
         flipecc: function (input) {
             console.log("==Bit Flip + ECC==");
             var guess = input.replaceAt(0, ((Number(input.charAt(0)) + 1) % 2).toString());
@@ -259,15 +293,23 @@ var game = {
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
-        bitrep: function(input) {
+        // ============================================================================================
+        // Function: bitrep()
+        // ============================================================================================ 
+
+        bitrep: function (input) {
             console.log("==Bit Flip + Bit Repetition==");
             game.addScore(input);
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
+        // ============================================================================================
+        // Function: incrbitrate()
+        // ============================================================================================
+
         incrbitrate: function (input) { //get 2 guesses
             console.log("==incr bit rate==");
-            var partial="";
+            var partial = "";
             var letter1;
             var letter2;
             var L1 = false;
@@ -277,8 +319,8 @@ var game = {
                     letter1 = partial;
                     letter2 = input.substr(i, input.length);
                     break;
-                } 
-                else{
+                }
+                else {
                     partial = partial.concat(input.charAt(i));
                 }
             }
@@ -288,11 +330,15 @@ var game = {
             game.addScore(letter1);
             game.hold = false;
             game.addScore(letter2);
-            
+
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
-        truncate: function(input, numToTrunc) {
+        // ============================================================================================
+        // Function: truncate()
+        // ============================================================================================
+
+        truncate: function (input, numToTrunc) {
             console.log("==truncate==");
 
             var guess = input.substring(0, input.length - 2);
@@ -300,7 +346,11 @@ var game = {
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
-        flip: function(input) {
+        // ============================================================================================
+        // Function: flip()
+        // ============================================================================================
+
+        flip: function (input) {
             console.log("==flip==");
             //random number from 1-length input
             var num = Math.floor(Math.random() * input.length);
@@ -310,24 +360,32 @@ var game = {
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
 
         },
-        
+
+        // ============================================================================================
+        // Function: skip()
+        // ============================================================================================
+
         skip: function () {
             console.log("==skip==");
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.highlightPlayer();
             game.awaitingButton();
         },
+        // ============================================================================================
+        // Function: endgame()
+        // ============================================================================================
 
-        endGame: function() {
+        endGame: function () {
             console.log("==endGame==");
-            
+            for (var i = 0; i < game.currentWord.length; i++) {
+
+                var currentLetter = game.currentWord[i];
+                console.log(currentLetter);
+                $('#letter_' + i + '> p').css("visibility", "visible");
+            }
+            alert("The correct word is " + game.currentWord);
         }
-       
     }
-
-
-
-
-Player();
-game.activateButtons();
+    Player();
+    game.activateButtons();
 };
