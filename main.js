@@ -183,7 +183,6 @@ var game = {
 
                 
                 game.guessedArray.push(guessedLetter);
-
                 for (var i = 0; i < game.binaryArray.length; i++) {
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
@@ -208,6 +207,8 @@ var game = {
                 guessedLetter = input;
             }
             var correctGuess = game.checkLetter(guessedLetter);
+            document.getElementById("guessedLetters").innerHTML = "Guesses:" + " " + game.guessedArray.join(", ");
+
             var pointsToAdd = $('#score').val();
             console.log("==AddScore==");
             console.log(pointsToAdd);
