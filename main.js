@@ -288,9 +288,10 @@ var game = {
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
-        truncate: function(input, numTruncate) {
+        truncate: function(input, numToTrunc) {
             console.log("==truncate==");
-            var guess = truncateString(input, numTruncate);
+
+            var guess = input.substring(0, input.length - 2);
             game.addScore(guess);
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
