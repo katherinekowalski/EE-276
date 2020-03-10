@@ -33,6 +33,8 @@ function randomNumber(min, max) {
         round: 1,
         wordArray: ["TSACHY", "WEISSMAN", "KASIA", "YASMEEN", "SHUBHAM", "CALVIN"],
         binaryArray: [],
+        guessedArray: [],
+        guessCount: 0,
         //wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
         currentWord: "",
         currentValue: "",
@@ -134,6 +136,7 @@ function randomNumber(min, max) {
         },
 
         awaitingButton: function () {
+            $('#add').on('click',game.addScore);
             $('#bankrupt').on('click', game.bankrupt);
             $('#truncate').on('click', game.truncate);
             $('#bitflip').on('click', game.flip);
@@ -151,39 +154,44 @@ function randomNumber(min, max) {
               var letterCount = 0;
               for (var i = 0; i < game.binaryArray.length; i++) {
                 if (game.binaryArray[i] == guessedLetter) {
-                  $('#letter_' + i + '> p').css("visibility", "visible");
-                  letterCount++;
+                    $('#letter_' + i + '> p').css("visibility", "visible");
+                    letterCount++;
+                    return true;
                 } else {
-                  console.log("==checkNextLetter==");
+                    game.guessedArray.push(guessedLetter);
+                    guessCount++;
+                    console.log("==checkNextLetter==");
+                    return false;
                 }
               }
-              if (letterCount == 0) {
-                game.currentPlayer = game.currentPlayer + 1;
-                if (game.currentPlayer == game.playerArray.length) {
-                  game.currentPlayer = 0;
-                }
-              }
+            //   if (letterCount == 0) {
+            //     game.currentPlayer = game.currentPlayer + 1;
+            //     if (game.currentPlayer == game.playerArray.length) {
+            //       game.currentPlayer = 0;
+            //     }
+            //   }
             }
             console.log("game.currentPlayer", game.currentPlayer);
+            return false;
         },
 
         addScore: function(){
             var guessedLetter = $('#enterLetter').val();
-            game.checkLetter(guessedLetter);
+            var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#add').val();
             console.log("==AddScore==");
-            if (game.currentPlayer == 0){
-              game.playerArray[0].totalScore += pointsToAdd; // adding the score per number of letters
-              console.log(game.playerArray[2].totalScore);
-              $('#totalScore_1').text(totalScore);
+            if (game.currentPlayer == 0 && correctGuess) {
+                game.playerArray[0].totalScore += pointsToAdd; // adding the score per number of letters
+                console.log(game.playerArray[2].totalScore);
+                $('#totalScore_1').text(totalScore);
             };
-            if (game.currentPlayer == 1){
-              game.playerArray[1].totalScore += pointsToAdd;
-              $('#totalScore_2').text(totalScore);
+            if (game.currentPlayer == 1 && correctGuess) {
+                game.playerArray[1].totalScore += pointsToAdd;
+                $('#totalScore_2').text(totalScore);
             };
-            if (game.currentPlayer == 2){
-              game.playerArray[2].totalScore += pointsToAdd;
-              $('#totalScore_3').text(totalScore);
+            if (game.currentPlayer == 2 && correctGuess) {
+                game.playerArray[2].totalScore += pointsToAdd;
+                $('#totalScore_3').text(totalScore);
             };
             game.awaitingButton();
         },
@@ -213,6 +221,7 @@ function randomNumber(min, max) {
             };
             game.awaitingButton();
         },
+
 
         
         flipecc: function (guess) {
