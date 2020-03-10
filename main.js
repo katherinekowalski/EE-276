@@ -162,6 +162,7 @@ var game = {
             bitrep.onclick = function() {game.bitrep($('#enterLetter').val())}
             incrbitrate.onclick = function() {game.incrbitrate($('#enterLetter').val())}
             skip.onclick = function() {game.skip()}
+            endgame.onclick = function() {game.endgame()}
         },
 
         checkLetter: function(guessedLetter){
@@ -232,20 +233,22 @@ var game = {
             game.awaitingButton();
         },
 
-        bankrupt: function(){
+        bankrupt: function() {
             console.log("==bankrupt==");
             if (game.currentPlayer == 0){
-              $('#total_score1').text(0);
-          }
-          else if (game.currentPlayer == 1){
-              $('#total_score2').text(0);
-          }
-          else if (game.currentPlayer == 2){
-              $('#total_score3').text(0);
-          };
-
-            //game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+                game.playerArray[0].totalScore = 0;
+                console.log("Bankrupt: " + game.playerArray[0].totalScore);
+                $('#totalScore_1').text(Number(game.playerArray[0].totalScore));
+            } else if (game.currentPlayer == 1){
+                game.playerArray[1].totalScore = 0;
+                $('#totalScore_2').text(Number(game.playerArray[1].totalScore));
+            } else if (game.currentPlayer == 2){
+                game.playerArray[2].totalScore = 0;
+                $('#totalScore_3').text(Number(game.playerArray[2].totalScore));
+            }
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.awaitingButton();
+            game.highlightPlayer();
         },
 
         flipecc: function (input) {
@@ -312,13 +315,16 @@ var game = {
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.highlightPlayer();
             game.awaitingButton();
+        },
+
+        endGame: function() {
+            console.log("==endGame==");
+            
         }
+       
     }
 
 
-// function endGame() {
-//     state = "END_GAME";
-// }
 
 
 Player();
