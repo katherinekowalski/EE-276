@@ -21,10 +21,6 @@ window.onload = function (e) {
 String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
-// Function to generate random number  
-function randomNumber(min, max) {  
-    return Math.random() * (max - min) + min; 
-} 
 
     var game = {
 
@@ -159,17 +155,16 @@ function randomNumber(min, max) {
             //<button onclick="game.addScore">Click me</button>
             add.onclick = function() {game.addScore()}
             bankrupt.onclick = function() {game.bankrupt()}
-            truncate.onclick = function() {game.truncate()}
-            flip.onclick = function() {game.flip()}
-            flipecc.onclick = function() {game.flipecc()}
-            bitrep.onclick = function() {game.bitrep()}
+            truncate.onclick = function() {game.truncate($('#enterLetter').val(), 3)}
+            flip.onclick = function() {game.flip($('#enterLetter').val())}
+            flipecc.onclick = function() {game.flipecc($('#enterLetter').val())}
+            bitrep.onclick = function() {game.bitrep($('#enterLetter').val())}
             incrbitrate.onclick = function() {game.incrbitrate()}
             skip.onclick = function() {game.skip()}
         },
 
         checkLetter: function(guessedLetter){
             console.log("==checkLetter==");
-            var guessedLetter = $('#enterLetter').val();
             console.log(guessedLetter);
             this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
@@ -198,22 +193,15 @@ function randomNumber(min, max) {
             console.log(pointsToAdd);
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
-                // console.log("New total score" + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
-                // game.currentPlayer = 1;
             }
             else if (game.currentPlayer == 1 && correctGuess) {
                 game.playerArray[1].totalScore = (Number(game.playerArray[1].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
-                // game.currentPlayer = 2;
             }
             else if (game.currentPlayer == 2 && correctGuess) {
                 game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
-                // game.currentPlayer = 0;
             }
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; //game.playerArray.length
             console.log("game.currentPlayer", game.currentPlayer);
@@ -240,12 +228,12 @@ function randomNumber(min, max) {
 
         flipecc: function (guess) {
             console.log("==Bit Flip + ECC==");
-            checkLetter(guess)
+            game.checkLetter(guess)
         },
 
         bitrep: function(guess) {
             console.log("==Bit Flip + Bit Repetition==");
-            checkLetter(guess)
+            game.checkLetter(guess)
         },
 
         incrbitrate: function () { //get 2 guesses
@@ -254,16 +242,17 @@ function randomNumber(min, max) {
 
         truncate: function(input, numTruncate) {
             console.log("==truncate==");
-            checkLetter(truncateString(input, numTruncate))
+            game.checkLetter(truncateString(input, numTruncate))
         },
 
         flip: function(input) {
             console.log("==flip==");
-            var number = parseInt(input);
             //random number from 1-length input
-            var num = randomNumber(0, input.length);
+            var num = Math.floor(Math.random() * input.length);
             //flip bit
-            checkLetter(input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()));
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; //game.playerArray.length
+            game.checkLetter(input.replaceAt(num, ((Number(input.charAt(num)) + 1) % 2).toString()));
+
         },
         
         skip: function () {
