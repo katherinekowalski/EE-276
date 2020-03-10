@@ -22,15 +22,15 @@ String.prototype.replaceAt=function(index, replacement) {
     return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
 }
 
-    var game = {
+var game = {
 
-        playerArray: [],
-        currentPlayer: 0,
-        round: 1,
-        wordArray: ["TSAACHY", "WEISSMAN", "KASIA", "YASMEEN", "SHUBHAM", "CAALVIN"],
-        binaryArray: [],
-        guessedArray: [],
-        guessCount: 0,
+    playerArray: [],
+    currentPlayer: 0,
+    round: 1,
+    wordArray: ["TSAACHY", "WEISSMAN", "KASIA", "YASMEEN", "SHUBHAM", "CAALVIN"],
+    binaryArray: [],
+    guessedArray: [],
+    guessCount: 0,
         //wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
         currentWord: "",
         currentValue: "",
@@ -46,43 +46,43 @@ String.prototype.replaceAt=function(index, replacement) {
             console.log("==checkUser==");
             if ($('#userName_1').val()) {
               game.makePlayers();
-            } else {
+          } else {
               alert("Please enter a name for player one.")
-            }
-        },
+          }
+      },
 
-        makePlayers: function() {
-            console.log("==makePlayers==");
-            $('#startModal').css("display", "none");
-            var playerOneName = $('#userName_1').val()
-            var playerTwoName = $('#userName_2').val()
-            var playerThreeName = $('#userName_3').val()
-            $('#player_1').text(playerOneName);
-            $('#player_1').css("color", "#FB6542");
-            var playerOne = new Player(playerOneName, 0);
-            game.playerArray.push(playerOne);
-            if (playerTwoName) {
-              $('#player_2').text(playerTwoName);
-              var playerTwo = new Player(playerTwoName, 0);
-              game.playerArray.push(playerTwo);
-            };
-            if (playerThreeName) {
-              $('#player_3').text(playerThreeName);
-              var playerThree = new Player(playerThreeName, 0);
-              game.playerArray.push(playerThree);
-            };
-            console.log("game.playerArray", game.playerArray);
-            game.loadPuzzle();
-        },
+      makePlayers: function() {
+        console.log("==makePlayers==");
+        $('#startModal').css("display", "none");
+        var playerOneName = $('#userName_1').val()
+        var playerTwoName = $('#userName_2').val()
+        var playerThreeName = $('#userName_3').val()
+        $('#player_1').text(playerOneName);
+        $('#player_1').css("color", "#FB6542");
+        var playerOne = new Player(playerOneName, 0);
+        game.playerArray.push(playerOne);
+        if (playerTwoName) {
+          $('#player_2').text(playerTwoName);
+          var playerTwo = new Player(playerTwoName, 0);
+          game.playerArray.push(playerTwo);
+      };
+      if (playerThreeName) {
+          $('#player_3').text(playerThreeName);
+          var playerThree = new Player(playerThreeName, 0);
+          game.playerArray.push(playerThree);
+      };
+      console.log("game.playerArray", game.playerArray);
+      game.loadPuzzle();
+  },
 
 
-        loadPuzzle: function() {
-            console.log("==loadPuzzle==");
-            var randomPhrase = game.wordArray[Math.floor(Math.random() * game.wordArray.length)];
-            game.currentWord = randomPhrase;
-            $('#gameDisplay').empty();
-            for (var i = 0; i < game.currentWord.length; i++) {
-              
+  loadPuzzle: function() {
+    console.log("==loadPuzzle==");
+    var randomPhrase = game.wordArray[Math.floor(Math.random() * game.wordArray.length)];
+    game.currentWord = randomPhrase;
+    $('#gameDisplay').empty();
+    for (var i = 0; i < game.currentWord.length; i++) {
+
                 var letter_hash = new Object(); //Maps letters to binary value
                 var currentLetter;    
 
@@ -136,30 +136,30 @@ String.prototype.replaceAt=function(index, replacement) {
             console.log("==highlightPlayer==");
             if (game.currentPlayer == 0){
               $('#player_1').css("color", "#FB6542");
-            } else {
+          } else {
               $('#player_1').css("color", "#000");
-            };
-            if (game.currentPlayer == 1){
+          };
+          if (game.currentPlayer == 1){
               $('#player_2').css("color", "#FB6542");
-            } else {
+          } else {
               $('#player_2').css("color", "#000");
-            };
-            if (game.currentPlayer == 2){
+          };
+          if (game.currentPlayer == 2){
               $('#player_3').css("color", "#FB6542");
-            } else {
+          } else {
               $('#player_3').css("color", "#000");
-            };
-        },
+          };
+      },
 
-        awaitingButton: function () {
+      awaitingButton: function () {
             //<button onclick="game.addScore">Click me</button>
-            add.onclick = function() {game.addScore()}
+            add.onclick = function() {game.addScore("")}
             bankrupt.onclick = function() {game.bankrupt()}
-            truncate.onclick = function() {game.truncate($('#enterLetter').val(), 3)}
+            truncate.onclick = function() {game.truncate($('#enterLetter').val(), 2)}
             flip.onclick = function() {game.flip($('#enterLetter').val())}
             flipecc.onclick = function() {game.flipecc($('#enterLetter').val())}
             bitrep.onclick = function() {game.bitrep($('#enterLetter').val())}
-            incrbitrate.onclick = function() {game.incrbitrate()}
+            incrbitrate.onclick = function() {game.incrbitrate($('#enterLetter').val())}
             skip.onclick = function() {game.skip()}
         },
 
@@ -185,8 +185,11 @@ String.prototype.replaceAt=function(index, replacement) {
             return false;
         },
 
-        addScore: function(){
+        addScore: function(input){
             var guessedLetter = $('#enterLetter').val();
+            if(input.length != 0) {
+                guessedLetter = input;
+            }
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
             console.log("==AddScore==");
@@ -214,35 +217,71 @@ String.prototype.replaceAt=function(index, replacement) {
             console.log("==bankrupt==");
             if (game.currentPlayer == 0){
               $('#total_score1').text(0);
-            };
-            if (game.currentPlayer == 1){
+          };
+          if (game.currentPlayer == 1){
               $('#total_score2').text(0);
-            };
-            if (game.currentPlayer == 2){
+          };
+          if (game.currentPlayer == 2){
               $('#total_score3').text(0);
-            };
-            
+          };
+
             //game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.awaitingButton();
         },
 
         flipecc: function (guess) {
             console.log("==Bit Flip + ECC==");
-            game.checkLetter(guess)
+            if(game.checkLetter(guess)) {
+                game.addScore(guess);
+            }
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
         bitrep: function(guess) {
             console.log("==Bit Flip + Bit Repetition==");
-            game.checkLetter(guess)
+            if(game.checkLetter(guess)) {
+                game.addScore(guess);
+            }
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
+
         },
 
-        incrbitrate: function () { //get 2 guesses
+        incrbitrate: function (input) { //get 2 guesses
             console.log("==incr bit rate==");
+            var partial="";
+            var letter1;
+            var letter2;
+            var L1 = false;
+            var L2 = false;
+            for (var i = 0; i < input.length; i++) {
+                if (game.binaryArray.includes(partial) && !L1) {
+                    letter1 = partial;
+                    letter2 = input.substr(i, input.length);
+                    break;
+                } 
+                else{
+                    partial = partial.concat(input.charAt(i));
+                }
+            }
+            console.log(letter1)
+            console.log(letter2)
+            if(game.checkLetter(letter1)) {
+                game.addScore(letter1);
+            }
+            if(game.checkLetter(letter2)) {
+                game.addScore(letter2);
+            }
+            
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
         truncate: function(input, numTruncate) {
             console.log("==truncate==");
-            game.checkLetter(truncateString(input, numTruncate))
+            var guess = truncateString(input, numTruncate);
+            if(game.checkLetter(guess)) {
+                game.addScore(guess);
+            }
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
         flip: function(input) {
@@ -250,70 +289,26 @@ String.prototype.replaceAt=function(index, replacement) {
             //random number from 1-length input
             var num = Math.floor(Math.random() * input.length);
             //flip bit
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; //game.playerArray.length
-            game.checkLetter(input.replaceAt(num, ((Number(input.charAt(num)) + 1) % 2).toString()));
+            var guess = input.replaceAt(num, ((Number(input.charAt(num)) + 1) % 2).toString());
+            if(game.checkLetter(guess)) {
+                game.addScore(guess);
+            }
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
 
         },
         
         skip: function () {
             console.log("==skip==");
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         }
     }
 
-
-
-// ============================================================================================
-// Here are the functions of Negative consequences
-// ============================================================================================
-// function truncateBits(input, numTruncate) { 
-//     //INPUT: guessed letter in encoding
-//     //OUTPUT: modified letter in bits
-//     return truncateString(input, numTruncate)
-
-
-// }
-
-// function flipBit(input) {
-//     var number = parseInt(input);
-//     //random number from 1-length input
-//     var num = randomNumber(0, input.length);
-//     //flip bit
-//     return input.replaceAt(num, ((parseInt(input(num)) + 1) % 2).toString()); 
-// }
-
-// ============================================================================================
-// Here are the functions of Positive consequences
-// ============================================================================================
-// function bitRepetition(guess, x) { 
-//     //repeat each bit x times
-//     //take most plausible outcome
-//     //return
-//     //make x>2 so you can always reconstruct the guess
-//     return guess
-
-
-// }
-
-// function ECC(input, bitToCorrect) { //error correcting code, bits are 0 indexed!
-//     var number = parseInt(input);
-//     //flip bit
-//     return input.replaceAt(bitToCorrect, ((parseInt(input(num)) + 1) % 2).toString()); 
-// }
-
-// function knownChannel() { //error correcting code
-    
-// }
-
-
-// function addPoints(currPoints, netGain) {
-//     return currPoints + netGain;
-// }
 
 // function endGame() {
 //     state = "END_GAME";
 // }
 
 
-    Player();
-    game.activateButtons();
+Player();
+game.activateButtons();
 };
