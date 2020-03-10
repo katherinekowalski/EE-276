@@ -171,16 +171,20 @@ function randomNumber(min, max) {
             console.log(guessedLetter);
             if (guessedLetter.length != 0) {
                 var letterCount = 0;
+                console.log("VALUE OF INTERES:" + game.binaryArray.length)
                 for (var i = 0; i < game.binaryArray.length; i++) {
+                    console.log("Curr: " + game.binaryArray[i])
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
                         letterCount++;
-                        return true;
                     } else {
                         game.guessedArray.push(guessedLetter);
                         game.guessCount = game.guessCount + 1;
                         console.log("==checkNextLetter==");
                     }
+                }
+                if(letterCount > 0) {
+                    return true;
                 }
             }
             return false;
@@ -191,9 +195,11 @@ function randomNumber(min, max) {
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
             console.log("==AddScore==");
+            console.log(pointsToAdd);
+            console.log("correct?" + correctGuess)
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = game.playerArray[0].totalScore + pointsToAdd; // adding the score per number of letters
-                console.log(game.playerArray[0].totalScore);
+                // console.log("New total score" + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
             };
             if (game.currentPlayer == 1 && correctGuess) {
@@ -204,7 +210,8 @@ function randomNumber(min, max) {
                 game.playerArray[2].totalScore = game.playerArray[2].totalScore + pointsToAdd; // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             };
-            game.currentPlayer = (game.currentPlayer + 1) % 3
+            game.currentPlayer = (game.currentPlayer + 1) % 3;
+
             console.log("game.currentPlayer", game.currentPlayer);
             game.highlightPlayer();
             game.awaitingButton();
