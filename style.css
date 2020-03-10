@@ -74,6 +74,14 @@ h2 {
     visibility: hidden;
 }
 
+#guessedLetters {
+    background-color: #ff3600;
+    color: #ffffff;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    font-size: 14px;
+}
 
 #display {
     display: flex;
