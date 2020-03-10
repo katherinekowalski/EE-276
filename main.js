@@ -223,25 +223,15 @@ function randomNumber(min, max) {
             console.log("==bankrupt==");
             if (game.currentPlayer == 0){
               $('#total_score1').text(0);
-              game.currentPlayer = game.currentPlayer + 1;
-              if (game.currentPlayer == game.playerArray.length) {
-                game.currentPlayer = 0;
-              };
             };
             if (game.currentPlayer == 1){
               $('#total_score2').text(0);
-              game.currentPlayer = game.currentPlayer + 1;
-              if (game.currentPlayer == game.playerArray.length) {
-                game.currentPlayer = 0;
-              };
             };
             if (game.currentPlayer == 2){
               $('#total_score3').text(0);
-              game.currentPlayer = game.currentPlayer + 1;
-              if (game.currentPlayer == game.playerArray.length) {
-                game.currentPlayer = 0;
-              };
             };
+            
+            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.awaitingButton();
         },
 
