@@ -35,6 +35,7 @@ var game = {
         currentValue: "",
         correctLetterCount: 0,
         newGuess: true,
+        hold: false,
 
 
         activateButtons: function() {
@@ -221,7 +222,7 @@ var game = {
                 game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             }
-            if (game.newGuess) {
+            if (game.newGuess && !game.hold) {
                 game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             }
             game.newGuess = true;
@@ -235,11 +236,11 @@ var game = {
             console.log("==bankrupt==");
             if (game.currentPlayer == 0){
               $('#total_score1').text(0);
-          };
-          if (game.currentPlayer == 1){
+          }
+          else if (game.currentPlayer == 1){
               $('#total_score2').text(0);
-          };
-          if (game.currentPlayer == 2){
+          }
+          else if (game.currentPlayer == 2){
               $('#total_score3').text(0);
           };
 
@@ -247,21 +248,17 @@ var game = {
             game.awaitingButton();
         },
 
-        flipecc: function (guess) {
+        flipecc: function (input) {
             console.log("==Bit Flip + ECC==");
-            if(game.checkLetter(guess)) {
-                game.addScore(guess);
-            }
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
+            var guess = input.replaceAt(0, ((Number(input.charAt(0)) + 1) % 2).toString());
+            game.addScore(guess);
+            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
-        bitrep: function(guess) {
+        bitrep: function(input) {
             console.log("==Bit Flip + Bit Repetition==");
-            if(game.checkLetter(guess)) {
-                game.addScore(guess);
-            }
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
-
+            game.addScore(input);
+            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
         incrbitrate: function (input) { //get 2 guesses
@@ -283,22 +280,18 @@ var game = {
             }
             console.log(letter1)
             console.log(letter2)
-            if(game.checkLetter(letter1)) {
-                game.addScore(letter1);
-            }
-            if(game.checkLetter(letter2)) {
-                game.addScore(letter2);
-            }
+            game.hold = true;
+            game.addScore(letter1);
+            game.hold = false;
+            game.addScore(letter2);
             
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
         truncate: function(input, numTruncate) {
             console.log("==truncate==");
             var guess = truncateString(input, numTruncate);
-            if(game.checkLetter(guess)) {
-                game.addScore(guess);
-            }
+            game.addScore(guess);
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
@@ -308,16 +301,16 @@ var game = {
             var num = Math.floor(Math.random() * input.length);
             //flip bit
             var guess = input.replaceAt(num, ((Number(input.charAt(num)) + 1) % 2).toString());
-            if(game.checkLetter(guess)) {
-                game.addScore(guess);
-            }
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
+            game.addScore(guess);
+            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
 
         },
         
         skip: function () {
             console.log("==skip==");
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+            game.highlightPlayer();
+            game.awaitingButton();
         }
     }
 
