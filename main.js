@@ -35,10 +35,10 @@ function randomNumber(min, max) {
         binaryArray: [],
         guessedArray: [],
         guessCount: 0,
-        //wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
         currentWord: "",
         currentValue: "",
         correctLetterCount: 0,
+        newGuess: true,
 
 
         activateButtons: function() {
@@ -156,7 +156,6 @@ function randomNumber(min, max) {
         },
 
         awaitingButton: function () {
-            //<button onclick="game.addScore">Click me</button>
             add.onclick = function() {game.addScore()}
             bankrupt.onclick = function() {game.bankrupt()}
             truncate.onclick = function() {game.truncate()}
@@ -173,24 +172,39 @@ function randomNumber(min, max) {
             console.log(guessedLetter);
             this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
+
+                var newGuess = true;
+
+                for (var i = 0; i < game.binaryArray.length; i ++) {
+                    if (game.guessedArray[i] == guessedLetter) {
+                        alert("You have already guessed this! Guess again.");
+                        game.newGuess = false;
+                        return false;
+                    }
+                }
+
+                
+                game.guessedArray.push(guessedLetter);
+
                 for (var i = 0; i < game.binaryArray.length; i++) {
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
                         this.correctLetterCount++;
                     } else {
-                        game.guessedArray.push(guessedLetter);
                         game.guessCount = game.guessCount + 1;
                         console.log("==checkNextLetter==");
                     }
                 }
-                if(this.correctLetterCount > 0) {
+
+
+                if (this.correctLetterCount > 0) {
                     return true;
                 }
             }
             return false;
         },
 
-        addScore: function(){
+        addScore: function() {
             var guessedLetter = $('#enterLetter').val();
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
@@ -198,24 +212,20 @@ function randomNumber(min, max) {
             console.log(pointsToAdd);
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
-                // console.log("New total score" + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
-                // game.currentPlayer = 1;
             }
             else if (game.currentPlayer == 1 && correctGuess) {
                 game.playerArray[1].totalScore = (Number(game.playerArray[1].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
-                // game.currentPlayer = 2;
             }
             else if (game.currentPlayer == 2 && correctGuess) {
                 game.playerArray[2].totalScore = (Number(game.playerArray[2].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString();
-                 // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
-                // game.currentPlayer = 0;
             }
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; //game.playerArray.length
+            if (game.newGuess) {
+                game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+            }
+            game.newGuess = true;
             console.log("game.currentPlayer", game.currentPlayer);
 
             game.highlightPlayer();
