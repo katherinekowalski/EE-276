@@ -38,6 +38,7 @@ function randomNumber(min, max) {
         //wheelArray: ["BANKRUPT", "TRUNCATE", "FLIP", "UNFLIP","SKIP", "ADD", "SUBTRACT"],
         currentWord: "",
         currentValue: "",
+        correctLetterCount: 0,
 
 
         activateButtons: function() {
@@ -169,21 +170,21 @@ function randomNumber(min, max) {
             console.log("==checkLetter==");
             var guessedLetter = $('#enterLetter').val();
             console.log(guessedLetter);
+            this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
-                var letterCount = 0;
                 console.log("VALUE OF INTERES:" + game.binaryArray.length)
                 for (var i = 0; i < game.binaryArray.length; i++) {
                     console.log("Curr: " + game.binaryArray[i])
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
-                        letterCount++;
+                        this.correctLetterCount++;
                     } else {
                         game.guessedArray.push(guessedLetter);
                         game.guessCount = game.guessCount + 1;
                         console.log("==checkNextLetter==");
                     }
                 }
-                if(letterCount > 0) {
+                if(this.correctLetterCount > 0) {
                     return true;
                 }
             }
@@ -198,16 +199,19 @@ function randomNumber(min, max) {
             console.log(pointsToAdd);
             console.log("correct?" + correctGuess)
             if (game.currentPlayer == 0 && correctGuess) {
-                game.playerArray[0].totalScore = game.playerArray[0].totalScore + pointsToAdd; // adding the score per number of letters
+                game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString;
+                 // adding the score per number of letters
                 // console.log("New total score" + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
             };
             if (game.currentPlayer == 1 && correctGuess) {
-                game.playerArray[1].totalScore = game.playerArray[1].totalScore + pointsToAdd; // adding the score per number of letters
+                game.playerArray[1].totalScore = parseInt(game.playerArray[1].totalScore) + parseInt(pointsToAdd)*parseInt(this.correctLetterCount);
+                 // adding the score per number of letters
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
             };
             if (game.currentPlayer == 2 && correctGuess) {
-                game.playerArray[2].totalScore = game.playerArray[2].totalScore + pointsToAdd; // adding the score per number of letters
+                game.playerArray[2].totalScore = parseInt(game.playerArray[2].totalScore) + parseInt(pointsToAdd)*parseInt(this.correctLetterCount);
+                 // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             };
             game.currentPlayer = (game.currentPlayer + 1) % 3;
