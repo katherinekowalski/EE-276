@@ -135,6 +135,25 @@ function randomNumber(min, max) {
             console.log(game.binaryArray)
         },
 
+        highlightPlayer: function(){
+            console.log("==highlightPlayer==");
+            if (game.currentPlayer == 0){
+              $('#player_1').css("color", "#FB6542");
+            } else {
+              $('#player_1').css("color", "#000");
+            };
+            if (game.currentPlayer == 1){
+              $('#player_2').css("color", "#FB6542");
+            } else {
+              $('#player_2').css("color", "#000");
+            };
+            if (game.currentPlayer == 2){
+              $('#player_3').css("color", "#FB6542");
+            } else {
+              $('#player_3').css("color", "#000");
+            };
+          },
+
         awaitingButton: function () {
             $('#add').on('click',game.addScore);
             $('#bankrupt').on('click', game.bankrupt);
@@ -171,7 +190,6 @@ function randomNumber(min, max) {
             //     }
             //   }
             }
-            console.log("game.currentPlayer", game.currentPlayer);
             return false;
         },
 
@@ -179,21 +197,25 @@ function randomNumber(min, max) {
             var guessedLetter = $('#enterLetter').val();
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
-            console.log(pointsToAdd);
             console.log("==AddScore==");
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = game.playerArray[0].totalScore + pointsToAdd; // adding the score per number of letters
                 console.log(game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
+                game.currentPlayer = 1;
             };
             if (game.currentPlayer == 1 && correctGuess) {
                 game.playerArray[1].totalScore = game.playerArray[1].totalScore + pointsToAdd; // adding the score per number of letters
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
+                game.currentPlayer = 2;
             };
             if (game.currentPlayer == 2 && correctGuess) {
                 game.playerArray[2].totalScore = game.playerArray[2].totalScore + pointsToAdd; // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
+                game.currentPlayer = 0;
             };
+            console.log("game.currentPlayer", game.currentPlayer);
+            game.highlightPlayer();
             game.awaitingButton();
         },
 
@@ -223,8 +245,6 @@ function randomNumber(min, max) {
             game.awaitingButton();
         },
 
-
-        
         flipecc: function (guess) {
             console.log("==Bit Flip + ECC==");
             return guess
