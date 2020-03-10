@@ -234,7 +234,7 @@ function randomNumber(min, max) {
               $('#total_score3').text(0);
             };
             
-            game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
+            //game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
             game.awaitingButton();
         },
 
