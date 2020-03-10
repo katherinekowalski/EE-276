@@ -171,17 +171,20 @@ function randomNumber(min, max) {
             console.log(guessedLetter);
             if (guessedLetter.length != 0) {
                 var letterCount = 0;
+                console.log("VALUE OF INTERES:" + game.binaryArray.length)
                 for (var i = 0; i < game.binaryArray.length; i++) {
+                    console.log("Curr: " + game.binaryArray[i])
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
                         letterCount++;
-                        return true;
                     } else {
                         game.guessedArray.push(guessedLetter);
                         game.guessCount = game.guessCount + 1;
                         console.log("==checkNextLetter==");
-                        return false;
                     }
+                }
+                if(letterCount > 0) {
+                    return true;
                 }
             }
             return false;
@@ -210,7 +213,7 @@ function randomNumber(min, max) {
             game.currentPlayer = (game.currentPlayer + 1) % 3;
 
             console.log("game.currentPlayer", game.currentPlayer);
-            //game.highlightPlayer();
+            game.highlightPlayer();
             game.awaitingButton();
         },
 
