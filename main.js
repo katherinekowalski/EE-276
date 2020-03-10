@@ -159,7 +159,7 @@ function randomNumber(min, max) {
                     return true;
                 } else {
                     game.guessedArray.push(guessedLetter);
-                    guessCount++;
+                    game.guessCount = game.guessCount + 1;
                     console.log("==checkNextLetter==");
                     return false;
                 }
@@ -178,20 +178,21 @@ function randomNumber(min, max) {
         addScore: function(){
             var guessedLetter = $('#enterLetter').val();
             var correctGuess = game.checkLetter(guessedLetter);
-            var pointsToAdd = $('#add').val();
+            var pointsToAdd = $('#score').val();
+            console.log(pointsToAdd);
             console.log("==AddScore==");
             if (game.currentPlayer == 0 && correctGuess) {
-                game.playerArray[0].totalScore += pointsToAdd; // adding the score per number of letters
-                console.log(game.playerArray[2].totalScore);
-                $('#totalScore_1').text(totalScore);
+                game.playerArray[0].totalScore = game.playerArray[0].totalScore + pointsToAdd; // adding the score per number of letters
+                console.log(game.playerArray[0].totalScore);
+                $('#totalScore_1').text(game.playerArray[0].totalScore);
             };
             if (game.currentPlayer == 1 && correctGuess) {
-                game.playerArray[1].totalScore += pointsToAdd;
-                $('#totalScore_2').text(totalScore);
+                game.playerArray[1].totalScore = game.playerArray[1].totalScore + pointsToAdd; // adding the score per number of letters
+                $('#totalScore_2').text(game.playerArray[1].totalScore);
             };
             if (game.currentPlayer == 2 && correctGuess) {
-                game.playerArray[2].totalScore += pointsToAdd;
-                $('#totalScore_3').text(totalScore);
+                game.playerArray[2].totalScore = game.playerArray[2].totalScore + pointsToAdd; // adding the score per number of letters
+                $('#totalScore_3').text(game.playerArray[2].totalScore);
             };
             game.awaitingButton();
         },
