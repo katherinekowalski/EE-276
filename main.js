@@ -180,7 +180,6 @@ function randomNumber(min, max) {
                         game.guessedArray.push(guessedLetter);
                         game.guessCount = game.guessCount + 1;
                         console.log("==checkNextLetter==");
-                        return false;
                     }
                 }
             }
@@ -207,7 +206,7 @@ function randomNumber(min, max) {
             };
             game.currentPlayer = (game.currentPlayer + 1) % 3
             console.log("game.currentPlayer", game.currentPlayer);
-            //game.highlightPlayer();
+            game.highlightPlayer();
             game.awaitingButton();
         },
 
