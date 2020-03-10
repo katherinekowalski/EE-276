@@ -30,7 +30,7 @@ window.onload = function (e) {
         playerArray: [],
         currentPlayer: 0,
         round: 1,
-        wordArray: ["POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"],
+        wordArray: ["INFORMATION"],//,"POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"
         binaryArray: [],
         guessedArray: [],
         guessCount: 0,
@@ -193,9 +193,9 @@ window.onload = function (e) {
             this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
 
-                var newGuess = true;
+                game.newGuess = true;
 
-                for (var i = 0; i < game.binaryArray.length; i++) {
+                for (var i = 0; i < game.guessedArray.length; i++) {
                     if (game.guessedArray[i] == guessedLetter) {
                         alert("You have already guessed this! Guess again.");
                         game.newGuess = false;
@@ -309,28 +309,24 @@ window.onload = function (e) {
 
         incrbitrate: function (input) { //get 2 guesses
             console.log("==incr bit rate==");
-            var partial = "";
+            var partial="";
             var letter1;
             var letter2;
-            var L1 = false;
-            var L2 = false;
             for (var i = 0; i < input.length; i++) {
-                if (game.binaryArray.includes(partial) && !L1) {
-                    letter1 = partial;
-                    letter2 = input.substr(i, input.length);
+                
+                if (input.charAt(i) ==',') {
+                    letter1 = input.substr(0, i);
+                    letter2 = input.substr(i+1, input.length);
                     break;
-                }
-                else {
-                    partial = partial.concat(input.charAt(i));
-                }
+                } 
             }
-            console.log(letter1)
-            console.log(letter2)
+            console.log("l1" + letter1)
+            console.log("l2" + letter2)
             game.hold = true;
             game.addScore(letter1);
             game.hold = false;
             game.addScore(letter2);
-
+            
             // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
