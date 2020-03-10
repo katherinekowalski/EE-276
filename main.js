@@ -172,9 +172,7 @@ function randomNumber(min, max) {
             console.log(guessedLetter);
             this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
-                console.log("VALUE OF INTERES:" + game.binaryArray.length)
                 for (var i = 0; i < game.binaryArray.length; i++) {
-                    console.log("Curr: " + game.binaryArray[i])
                     if (game.binaryArray[i] == guessedLetter) {
                         $('#letter_' + i + '> p').css("visibility", "visible");
                         this.correctLetterCount++;
@@ -197,7 +195,6 @@ function randomNumber(min, max) {
             var pointsToAdd = $('#score').val();
             console.log("==AddScore==");
             console.log(pointsToAdd);
-            console.log("correct?" + correctGuess)
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = (Number(game.playerArray[0].totalScore) + Number(pointsToAdd)*Number(game.correctLetterCount)).toString;
                  // adding the score per number of letters
@@ -239,12 +236,12 @@ function randomNumber(min, max) {
 
         flipecc: function (guess) {
             console.log("==Bit Flip + ECC==");
-            return guess
+            checkLetter(guess)
         },
 
         bitrep: function(guess) {
             console.log("==Bit Flip + Bit Repetition==");
-            return guess
+            checkLetter(guess)
         },
 
         incrbitrate: function () { //get 2 guesses
@@ -253,8 +250,7 @@ function randomNumber(min, max) {
 
         truncate: function(input, numTruncate) {
             console.log("==truncate==");
-            return truncateString(input, numTruncate)
-
+            checkLetter(truncateString(input, numTruncate))
         },
 
         flip: function(input) {
