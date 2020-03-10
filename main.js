@@ -172,6 +172,7 @@ function randomNumber(min, max) {
             if (guessedLetter.length != 0) {
               var letterCount = 0;
               for (var i = 0; i < game.binaryArray.length; i++) {
+                console.log("LOGGING ARRAY" + game.binaryArray[i])
                 if (game.binaryArray[i] == guessedLetter) {
                     $('#letter_' + i + '> p').css("visibility", "visible");
                     letterCount++;
@@ -198,22 +199,22 @@ function randomNumber(min, max) {
             var correctGuess = game.checkLetter(guessedLetter);
             var pointsToAdd = $('#score').val();
             console.log("==AddScore==");
+            console.log(pointsToAdd);
+            console.log("correct?" + correctGuess)
             if (game.currentPlayer == 0 && correctGuess) {
                 game.playerArray[0].totalScore = game.playerArray[0].totalScore + pointsToAdd; // adding the score per number of letters
-                console.log(game.playerArray[0].totalScore);
+                // console.log("New total score" + game.playerArray[0].totalScore);
                 $('#totalScore_1').text(game.playerArray[0].totalScore);
-                game.currentPlayer = 1;
             };
             if (game.currentPlayer == 1 && correctGuess) {
                 game.playerArray[1].totalScore = game.playerArray[1].totalScore + pointsToAdd; // adding the score per number of letters
                 $('#totalScore_2').text(game.playerArray[1].totalScore);
-                game.currentPlayer = 2;
             };
             if (game.currentPlayer == 2 && correctGuess) {
                 game.playerArray[2].totalScore = game.playerArray[2].totalScore + pointsToAdd; // adding the score per number of letters
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
-                game.currentPlayer = 0;
             };
+            game.currentPlayer = (game.currentPlayer + 1) % 3;
             console.log("game.currentPlayer", game.currentPlayer);
             game.highlightPlayer();
             game.awaitingButton();
