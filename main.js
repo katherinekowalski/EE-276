@@ -135,7 +135,7 @@ function randomNumber(min, max) {
             console.log(game.binaryArray)
         },
 
-        highlightPlayer: function(){
+        highlightPlayer: function() {
             console.log("==highlightPlayer==");
             if (game.currentPlayer == 0){
               $('#player_1').css("color", "#FB6542");
@@ -152,7 +152,7 @@ function randomNumber(min, max) {
             } else {
               $('#player_3').css("color", "#000");
             };
-          },
+        },
 
         awaitingButton: function () {
             $('#add').on('click',game.addScore);
@@ -170,26 +170,19 @@ function randomNumber(min, max) {
             var guessedLetter = $('#enterLetter').val();
             console.log(guessedLetter);
             if (guessedLetter.length != 0) {
-              var letterCount = 0;
-              for (var i = 0; i < game.binaryArray.length; i++) {
-                console.log("LOGGING ARRAY" + game.binaryArray[i])
-                if (game.binaryArray[i] == guessedLetter) {
-                    $('#letter_' + i + '> p').css("visibility", "visible");
-                    letterCount++;
-                    return true;
-                } else {
-                    game.guessedArray.push(guessedLetter);
-                    game.guessCount = game.guessCount + 1;
-                    console.log("==checkNextLetter==");
-                    return false;
+                var letterCount = 0;
+                for (var i = 0; i < game.binaryArray.length; i++) {
+                    if (game.binaryArray[i] == guessedLetter) {
+                        $('#letter_' + i + '> p').css("visibility", "visible");
+                        letterCount++;
+                        return true;
+                    } else {
+                        game.guessedArray.push(guessedLetter);
+                        game.guessCount = game.guessCount + 1;
+                        console.log("==checkNextLetter==");
+                        return false;
+                    }
                 }
-              }
-            //   if (letterCount == 0) {
-            //     game.currentPlayer = game.currentPlayer + 1;
-            //     if (game.currentPlayer == game.playerArray.length) {
-            //       game.currentPlayer = 0;
-            //     }
-            //   }
             }
             return false;
         },
@@ -215,8 +208,9 @@ function randomNumber(min, max) {
                 $('#totalScore_3').text(game.playerArray[2].totalScore);
             };
             game.currentPlayer = (game.currentPlayer + 1) % 3;
+
             console.log("game.currentPlayer", game.currentPlayer);
-            game.highlightPlayer();
+            //game.highlightPlayer();
             game.awaitingButton();
         },
 
