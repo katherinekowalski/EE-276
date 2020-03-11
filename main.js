@@ -1,18 +1,34 @@
-// ============================================================================================
-// EE276 Final Project Main File
-// Contributors: Calvin Lin, Katherine Kowalski, Yasmeen Jassim
+// ================================================================================================
+// EE276 Final Project Main Script
+// Contributors: Calvin Lin, Katherine Kowalski
 // File: main.js
 // 
 // 
-// This file handles backend processes of the game. Specifically it turns all words into
-// a Huffman encoded value based on the probabilities in which letters appear in a Wheel 
-// of Fortune game according to an accumulated database.
-// ============================================================================================
+// This file handles backend processes of the game. Specifically it turns all words into a Huffman 
+// encoded value based on the probabilities in which letters appear in a Wheel of Fortune game 
+// according to an accumulated database. This program interacts with the GUI, and performs the 
+// backend computations depending on the buttons that are clicked. This file should be run with 
+// index.html and style.css.
+//
+// In each turn: the user will spin the wheel and act accordingly. 
+// The following outcomes include:
+//
+// 1) Add Score
+// 2) Bankruptcy
+// 3) Lose Turn
+// 4) Bit Flip
+// 5) Bit Flip with an Error Correction Code
+// 6) Truncate Bits
+// 7) Increased Bit Rate (Two Guesses)
+// 8) Bit Repetition
+// ================================================================================================
 window.onload = function (e) {
     console.log("==window loaded==");
 
     // ============================================================================================
     // Function: Player()
+    // 
+    // This function initializes the player and their relevant score.
     // ============================================================================================
 
     function Player(name, totalScore) {
@@ -30,7 +46,7 @@ window.onload = function (e) {
         playerArray: [],
         currentPlayer: 0,
         round: 1,
-        wordArray: ["DECODE"],//,"POLAR", "ASYMPTOTIC", "GAUSSIAN", "COMPRESSION", "DISTORTION"
+        wordArray: ["POLAR", "DECODE", "ENCODE", "ENTROPY", "CHANNEL", "COMPRESSION", "DISTORTION"],
         binaryArray: [],
         guessedArray: [],
         guessCount: 0,
@@ -56,7 +72,10 @@ window.onload = function (e) {
         },
 
         // ============================================================================================
-        // Function: makePlayers
+        // Function: makePlayers()
+        // 
+        // This function takes the user inputs of the names of the contestants and stores it in each
+        // player. This function then calls loadPuzzle().
         // ============================================================================================
 
         makePlayers: function () {
@@ -84,7 +103,10 @@ window.onload = function (e) {
         },
 
         // ============================================================================================
-        // Function: loadPuzzle
+        // Function: loadPuzzle()
+        // 
+        // This function randomly chooses a word and converts it to a Huffman encoded binary equivalent.
+        // This function then calls the awaitingButton() function.
         // ============================================================================================
 
         loadPuzzle: function () {
@@ -145,6 +167,8 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: highlightPlayer
+        //
+        // This function highlights the name of the current player.
         // ============================================================================================
 
         highlightPlayer: function () {
@@ -168,10 +192,12 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: awaitingButton()
+        //
+        // This function acts as a waiting state for the user to click a button to move the game
+        // forward.
         // ============================================================================================
 
         awaitingButton: function () {
-            //<button onclick="game.addScore">Click me</button>
             add.onclick = function () { game.addScore("") }
             bankrupt.onclick = function () { game.bankrupt() }
             truncate.onclick = function () { game.truncate($('#enterLetter').val(), 2) }
@@ -185,6 +211,8 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: checkLetter()
+        // 
+        // This function takes in a string input and checks if that input is a letter in the word.
         // ============================================================================================
 
         checkLetter: function (guessedLetter) {
@@ -193,16 +221,15 @@ window.onload = function (e) {
             this.correctLetterCount = 0;
             if (guessedLetter.length != 0) {
 
-                game.newGuess = true;
+                var newGuess = true;
 
-                for (var i = 0; i < game.guessedArray.length; i++) {
+                for (var i = 0; i < game.binaryArray.length; i++) {
                     if (game.guessedArray[i] == guessedLetter) {
                         alert("You have already guessed this! Guess again.");
                         game.newGuess = false;
                         return false;
                     }
                 }
-
 
                 game.guessedArray.push(guessedLetter);
                 for (var i = 0; i < game.binaryArray.length; i++) {
@@ -215,7 +242,6 @@ window.onload = function (e) {
                     }
                 }
 
-
                 if (this.correctLetterCount > 0) {
                     return true;
                 }
@@ -225,6 +251,9 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: addScore()
+        // 
+        // This program takes in the binary input and adds the score in the text field to the total
+        // score of the user if the input is a valid letter in the word.
         // ============================================================================================
 
         addScore: function (input) {
@@ -262,6 +291,9 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: bankrupt()
+        //
+        // This function bankrupts the score of the current user. It is called upon if a contestant
+        // lands on the bankrupt slot on the wheel and clicks the bankrupt button.
         // ============================================================================================
 
         bankrupt: function () {
@@ -284,59 +316,71 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: flipecc()
+        // 
+        // This function flips the first bit of the binary stream input. The user should know that this
+        // bit will be flipped. This function is called when 'Flip Bit + Error Correction Code' is
+        // clicked.
         // ============================================================================================
 
         flipecc: function (input) {
             console.log("==Bit Flip + ECC==");
             var guess = input.replaceAt(0, ((Number(input.charAt(0)) + 1) % 2).toString());
             game.addScore(guess);
-            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
         // ============================================================================================
         // Function: bitrep()
+        //
+        // This function simulates sending redundant bits in order to increase the likelihood that
+        // the answer is correct. In reality, this function just checks the original input of the user
+        // and 
         // ============================================================================================ 
 
         bitrep: function (input) {
             console.log("==Bit Flip + Bit Repetition==");
             game.addScore(input);
-            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
         },
 
         // ============================================================================================
         // Function: incrbitrate()
+        //
+        // This user parses two guesses from the contestant. The button 'Increase Bit Rate' calls this
+        // function. The user must add a comma between the two guesses.
         // ============================================================================================
 
         incrbitrate: function (input) { //get 2 guesses
             console.log("==incr bit rate==");
-            var partial="";
+            var partial = "";
             var letter1;
             var letter2;
+            var L1 = false;
+            var L2 = false;
             for (var i = 0; i < input.length; i++) {
-                
-                if (input.charAt(i) ==',') {
-                    letter1 = input.substr(0, i);
+                if (game.binaryArray.includes(partial) && !L1) {
+                    letter1 = partial;
                     letter2 = input.substr(i+1, input.length);
                     break;
-                } 
+                }
+                else {
+                    partial = partial.concat(input.charAt(i));
+                }
             }
-            console.log("l1" + letter1)
-            console.log("l2" + letter2)
+            console.log(letter1)
+            console.log(letter2)
             game.hold = true;
             game.addScore(letter1);
             game.hold = false;
             game.addScore(letter2);
-            
-            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
         },
 
         // ============================================================================================
         // Function: truncate()
+        // 
+        // When the 'Truncate' button is clicked, the last two bits of the guess is truncated.
         // ============================================================================================
 
         truncate: function (input, numToTrunc) {
             console.log("==truncate==");
-
             var guess = input.substring(0, input.length - 2);
             game.addScore(guess);
             game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length;
@@ -344,21 +388,22 @@ window.onload = function (e) {
 
         // ============================================================================================
         // Function: flip()
+        //
+        // When the 'Flip Bit' button is clicked, a random bit is flipped.
         // ============================================================================================
 
         flip: function (input) {
             console.log("==flip==");
-            //random number from 1-length input
             var num = Math.floor(Math.random() * input.length);
-            //flip bit
             var guess = input.replaceAt(num, ((Number(input.charAt(num)) + 1) % 2).toString());
             game.addScore(guess);
-            // game.currentPlayer = (game.currentPlayer + 1) % game.playerArray.length; 
 
         },
 
         // ============================================================================================
         // Function: skip()
+        // 
+        // The current player's turn is skipped when 'Lose Turn' is clicked.
         // ============================================================================================
 
         skip: function () {
@@ -367,14 +412,17 @@ window.onload = function (e) {
             game.highlightPlayer();
             game.awaitingButton();
         },
+
         // ============================================================================================
         // Function: endgame()
+        //
+        // This function reveals all binary letters and the word itself. Only click if one of the users
+        // guesses the word properly.
         // ============================================================================================
 
         endGame: function () {
             console.log("==endGame==");
             for (var i = 0; i < game.currentWord.length; i++) {
-
                 var currentLetter = game.currentWord[i];
                 console.log(currentLetter);
                 $('#letter_' + i + '> p').css("visibility", "visible");
