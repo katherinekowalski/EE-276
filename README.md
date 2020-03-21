@@ -11,6 +11,6 @@ https://calvinhlin.github.io/index.html
 HTML and CSS
 Javascript and jQuery
 
-## Author
+## Authors
 
 * Calvin Lin, Katherine Kowalski, Yasmeen Jassim
