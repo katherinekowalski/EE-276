@@ -4,7 +4,7 @@ Play this game of Wheel of Fortune with an information theory twist. Can play wi
 
 ## Deployment
 
-https://github.com/katherinekowalski/EE-276/index.html
+https://calvinhlin.github.io/index.html
 
 ## Built with
 
