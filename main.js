@@ -10,7 +10,8 @@
 // backend computations depending on the buttons that are clicked. This file should be run with 
 // index.html and style.css.
 //
-// In each turn: the user will spin the wheel and act accordingly. 
+// In each turn: the competitor will spin the wheel and act accordingly. Each button 
+// corresponds to an outcome.
 // The following outcomes include:
 //
 // 1) Add Score
