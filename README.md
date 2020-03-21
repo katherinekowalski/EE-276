@@ -8,8 +8,7 @@ https://calvinhlin.github.io/index.html
 
 ## Built with
 
-HTML and CSS
-Javascript and jQuery
+HTML, CSS, Javascript, and jQuery
 
 ## Authors
 
